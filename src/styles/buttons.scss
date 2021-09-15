@@ -1,0 +1,26 @@
+@import './hover';
+
+%button-light, %button-dark {
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  padding: 12px 35px;
+  transition: all .3s;
+  &:hover {
+    @extend %hover;
+  }
+}
+
+%button-light {
+  background: var(--site-color);
+}
+
+%button-dark {
+  background: var(--color-dark);
+  border: 1px solid var(--site-color);
+  &:hover {
+    @extend %button-light;
+  }
+}

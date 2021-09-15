@@ -1,0 +1,10 @@
+@import "/src/styles/buttons";
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  a {
+    @extend %button-dark;
+  }
+}

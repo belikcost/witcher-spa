@@ -1,0 +1,193 @@
+@import "/src/styles/buttons";
+
+%flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.feedback {
+  display: flex;
+  align-items: baseline;
+  p {
+    margin: 0;
+  }
+
+  &__form, &__success {
+    width: 45%;
+    margin-right: 125px;
+    button {
+      @extend %button-light;
+    }
+  }
+  h1 {
+    line-height: 56px;
+  }
+  &__success {
+    display: flex;
+    align-items: baseline;
+    flex-direction: column;
+    h1 {
+      margin: 0;
+    }
+    h5 {
+      margin: 24px 0 40px;
+    }
+    a {
+      @extend %button-light;
+    }
+  }
+  &__contacts {
+    width: 55%;
+    p {
+      color: rgba(255,255,255,.6)
+    }
+    h2, h3 {
+      margin-top: 0;
+    }
+  }
+  &_row {
+    @extend %flex-center;
+    justify-content: space-between;
+    .feedback_label:first-child {
+      margin-right: 24px;
+    }
+  }
+
+  &_label {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 32px;
+
+    span {
+      position: absolute;
+      color: #FF5858;
+      font-weight: 300;
+      bottom: 10px;
+    }
+
+    &.error {
+      input, textarea, select, .feedback__file-input, .feedback__checkbox, .feedback__select:not(.opening) .feedback__select-option {
+        background: rgba(236, 63, 63, 0.2);
+      }
+      .feedback__checkbox {
+        border: 1px solid rgba(236, 63, 63, 0.3);
+      }
+    }
+  }
+  &__select {
+    width: 100%;
+
+    &:after {
+      border: solid #fff;
+      border-width: 0 1px 1px 0;
+      display: inline-block;
+      padding: 5px;
+      content: "";
+      position: absolute;
+      top: 20px;
+      right: 16px;
+      transform: rotate(45deg);
+    }
+    &.opening:after {
+      transform: rotate(-135deg);
+    }
+  }
+  &__select-options {
+    position: absolute;
+    background: #000;
+    width: 100%;
+    z-index: 999;
+  }
+  &__select-option {
+    color: rgba(255,255,255,.8);
+    cursor: pointer;
+  }
+  &_default-value {
+    color: rgba(255,255,255,.4);
+  }
+  input, textarea, select, &__file-input, &__select-option {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    padding: 16px 24px;
+    width: 100%;
+    font-weight: 300;
+    font-size: 16px;
+    &:not(textarea) {
+      height: 56px;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  &__file-input {
+    cursor: pointer;
+    @extend %flex-center;
+    justify-content: space-between;
+    input {
+      display: none;
+    }
+  }
+
+  &__checkbox-container {
+    @extend %flex-center;
+  }
+  &__checkbox {
+    @extend %flex-center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    min-width: 32px;
+    height: 32px;
+    cursor: pointer;
+    margin-right: 20px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .feedback {
+    h1 {
+      line-height: 40px;
+    }
+    &__form, &__success {
+      width: 50%;
+      margin-right: 55px;
+    }
+    &__contacts {
+      width: 40%;
+    }
+    &_label {
+      padding-bottom: 24px;
+      span {
+        bottom: 6px;
+      }
+    }
+    &_row {
+      flex-direction: column;
+      .feedback_label:first-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .feedback {
+    flex-direction: column;
+    &_label span {
+      bottom: 4px;
+    }
+    &__form, &__success {
+      margin: 0 0 52px;
+      align-items: normal;
+      h5 {
+        margin: 16px 0 32px;
+      }
+    }
+    &__contacts, &__success, &__form {
+      width: 100%;
+    }
+  }
+}

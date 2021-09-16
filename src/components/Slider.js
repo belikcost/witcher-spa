@@ -18,17 +18,19 @@ export const Slider = () => {
 
     return (
         <div className="slider">
-            <header>
-                <h2>Актерский состав</h2>
-                <div className="slider__nav-container">
-                    <span className="slider__button-prev"/>
-                    <span className="slider__button-next"/>
-                </div>
-            </header>
+            <div className="slider_container">
+                <header>
+                    <h2>Актерский состав</h2>
+                    <div className="slider__nav-container">
+                        <span className="slider__button-prev"/>
+                        <span className="slider__button-next"/>
+                    </div>
+                </header>
+            </div>
             <Swiper
                 slidesPerView={4}
-                // centeredSlides={true}
-                // centeredSlidesBounds={true}
+                centeredSlides={true}
+                initialSlide={1}
                 pagination={{
                     type: 'progressbar',
                 }}

@@ -1,6 +1,7 @@
 @import './hover';
 
 %button-light, %button-dark {
+  border: 1px solid rgba(0,0,0,0);
   cursor: pointer;
   text-decoration: none;
   font-size: 16px;
@@ -8,6 +9,7 @@
   color: #fff;
   padding: 12px 35px;
   transition: all .3s;
+  text-align: center;
   &:hover {
     @extend %hover;
   }
@@ -21,6 +23,6 @@
   background: var(--color-dark);
   border: 1px solid var(--site-color);
   &:hover {
-    @extend %button-light;
+    @extend %hover;
   }
 }

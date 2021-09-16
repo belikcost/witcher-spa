@@ -4,7 +4,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  a {
+  padding: 22px 0;
+  &__feedback {
     @extend %button-dark;
   }
 }

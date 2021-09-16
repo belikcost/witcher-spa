@@ -1,7 +1,9 @@
 %hover {
-  box-shadow: 0 2px 24px var(--shadow-color);
+  box-shadow: 0 2px 24px var(--big-shadow-color);
+  background: var(--color-light);
 }
 
 %arrow-hover {
-  box-shadow: 3px 3px 8px 0 var(--shadow-color);
+  box-shadow: 4px 4px 6px 0 var(--small-shadow-color);
+  border-color: var(--color-light);
 }

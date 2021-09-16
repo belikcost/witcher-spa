@@ -1,10 +1,12 @@
 import { Route, Switch } from "react-router-dom";
 
 import Map from "./Map";
+import Feedback from "./Feedback";
 
 import { Header } from "./Header";
 import { Slider } from "./Slider";
-import { Feedback } from "./Feedback/Feedback";
+import { Banner } from "./Banner";
+import { Gallery } from "./Gallery";
 
 import '../fonts/stylesheet.css';
 import './App.scss';
@@ -13,15 +15,25 @@ import './App.scss';
 export const App = () => {
 
     return (
-        <div className="container">
-            <Header/>
+        <>
+            <div className="container">
+                <Header/>
+            </div>
             <Switch>
                 <Route exact path="/">
+                    <Banner/>
                     <Slider/>
-                    <Map/>
+                    <div className="container">
+                        <Gallery/>
+                        <Map/>
+                    </div>
                 </Route>
-                <Route path="/feedback" component={Feedback}/>
+                <Route path="/feedback">
+                    <div className="container">
+                        <Feedback/>
+                    </div>
+                </Route>
             </Switch>
-        </div>
+        </>
     );
 }

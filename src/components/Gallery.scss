@@ -1,0 +1,25 @@
+@import "/src/styles/buttons";
+
+.gallery {
+  &_images {
+    display: flex;
+    img {
+      width: 100%;
+      margin: 12px 0;
+    }
+  }
+  &_group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    img {
+      width: 45%;
+      margin-left: 24px;
+    }
+  }
+  button {
+    margin-top: 20px;
+    @extend %button-dark;
+    width: 100%;
+  }
+}

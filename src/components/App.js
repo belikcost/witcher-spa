@@ -4,6 +4,7 @@ import Map from "./Map";
 import Feedback from "./Feedback";
 
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 import { Slider } from "./Slider";
 import { Banner } from "./Banner";
 import { Gallery } from "./Gallery";
@@ -22,11 +23,11 @@ export const App = () => {
             <Switch>
                 <Route exact path="/">
                     <Banner/>
-                    <Slider/>
                     <div className="container">
+                        <Slider/>
                         <Gallery/>
-                        <Map/>
                     </div>
+                    <Map/>
                 </Route>
                 <Route path="/feedback">
                     <div className="container">
@@ -34,6 +35,7 @@ export const App = () => {
                     </div>
                 </Route>
             </Switch>
+            <Footer/>
         </>
     );
 }

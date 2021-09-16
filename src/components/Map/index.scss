@@ -1,6 +1,19 @@
+@import "/src/styles/container";
+
 .map {
+  margin-top: 72px;
+  header {
+    @extend %container;
+  }
   &__content {
     position: relative;
     height: 540px;
+    @extend %container;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .map__content {
+    padding: 0;
   }
 }

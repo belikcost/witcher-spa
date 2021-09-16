@@ -24,3 +24,10 @@
     }
   }
 }
+
+@media screen and (max-width: 500px) {
+  .banner__content p {
+    max-width: none;
+    margin-top: 0;
+  }
+}

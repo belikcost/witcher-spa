@@ -9,3 +9,10 @@
     @extend %button-dark;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .header__feedback {
+    white-space: nowrap;
+    padding: 12px 24px;
+  }
+}

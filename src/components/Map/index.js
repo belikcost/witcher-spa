@@ -10,7 +10,9 @@ const Map = ({google}) => {
 
     return (
         <div className="map">
-            <h2>Магазины мерча ведьмака</h2>
+            <header>
+                <h2>Магазины мерча ведьмака</h2>
+            </header>
             <div className="map__content">
                 <GoogleMap
                     google={google}

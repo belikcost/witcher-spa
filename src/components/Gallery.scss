@@ -1,10 +1,11 @@
 @import "/src/styles/buttons";
 
 .gallery {
+  margin-top: 72px;
   &_images {
     display: flex;
     img {
-      width: 100%;
+      width: 50%;
       margin: 12px 0;
     }
   }
@@ -21,5 +22,36 @@
     margin-top: 20px;
     @extend %button-dark;
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .gallery {
+    &_images img {
+      margin: 9px 0;
+      width: 48%;
+    }
+    &_group img {
+      height: fit-content;
+      margin-left: 16px;
+      width: 43%;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .gallery {
+    &_images {
+      flex-direction: column;
+      img {
+        margin: 0 0 16px;
+        width: 100%;
+      }
+    }
+    &_group img {
+      &:nth-last-child(n+3) {
+        display: none;
+      }
+    }
   }
 }

@@ -7,3 +7,10 @@
   box-shadow: 4px 4px 6px 0 var(--small-shadow-color);
   border-color: var(--color-light);
 }
+
+%svg-hover {
+  box-shadow: 0 2px 24px var(--big-shadow-color);
+  path {
+    fill: var(--color-light);
+  }
+}

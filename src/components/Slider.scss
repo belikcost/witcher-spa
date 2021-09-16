@@ -7,12 +7,10 @@
 }
 
 .slider {
+  margin-top: 42px;
   header {
     @extend %flex-center;
     justify-content: space-between;
-  }
-  &_container {
-    @extend %container;
   }
   &__content {
     padding-top: 2rem;
@@ -70,7 +68,6 @@
     transform: rotate(135deg);
   }
   .swiper-pagination {
-    @extend %container;
     background-color: #5D5D5D;
     height: 2px;
     right: 0;
@@ -78,5 +75,14 @@
     &, .swiper-pagination-progressbar-fill {
       border-radius: 20px;
     }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .slider {
+    margin: 0;
+  }
+  .slider__button-next, .slider__button-prev {
+    padding: 7px;
   }
 }

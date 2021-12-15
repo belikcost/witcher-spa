@@ -1,44 +1,47 @@
-import { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Label } from "./Label";
-import { Select } from "./Select";
+import Select from "../../primitives/Select";
+import Input from "../../primitives/Input";
+import Textarea from "../../primitives/Textarea";
+import FileInput from "../../primitives/FileInput";
 
-import paperClipIcon from '/src/img/paperClip.svg';
 import checkMarkIcon from '/src/img/checkMark.svg';
 
 import './index.scss';
 
+const initialErrors = {
+    city: false,
+    name: false,
+    email: false,
+    phone: false,
+    message: false,
+    file: false,
+    agree: false
+};
+
+const initialData = {
+    city: '',
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+    file: '',
+    agree: false
+};
+
+const getFileName = (path) => path.replace('C:\\fakepath\\', '');
 
 const Feedback = () => {
     const fileInputRef = useRef();
-    const initialData = {
-        city: '',
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-        file: '',
-        agree: false
-    };
+
     const [data, setData] = useState(initialData);
-
-    const initialErrors = {
-        city: false,
-        name: false,
-        email: false,
-        phone: false,
-        message: false,
-        file: false,
-        agree: false
-    };
     const [errors, setErrors] = useState(initialErrors);
-
     const [success, setSuccess] = useState(false);
 
-    const handleChange = (name, value) => {
-        setData({...data, [name]: value});
-    }
+    const handleChange = useCallback((name, value) => {
+        setData((prevData) => ({...prevData, [name]: value}));
+    }, []);
 
     const handleCheckData = () => {
         const fields = Object.keys(data);
@@ -55,9 +58,14 @@ const Feedback = () => {
         } else {
             setSuccess(true);
         }
-    }
+    };
 
-    const getFileName = (path) => path.replace('C:\\fakepath\\', '');
+    const handleChangeCity = useCallback((value) => handleChange('city', value), []);
+    const handleChangeName = useCallback((e) => handleChange('name', e.target.value), []);
+    const handleChangeEmail = useCallback((e) => handleChange('email', e.target.value), []);
+    const handleChangeFile = useCallback((e) => handleChange('file', e.target.value), []);
+    const handleChangePhone = useCallback((e) => handleChange('phone', e.target.value), []);
+    const handleChangeMessage = useCallback((e) => handleChange('message', e.target.value), []);
 
     return (
         <div className="feedback">
@@ -70,69 +78,53 @@ const Feedback = () => {
             ) : (
                 <div className="feedback__form">
                     <h1>Оставьте заявку</h1>
-                    <Label isError={errors.city}>
-                        <Select value={data.city} onChange={(value) => handleChange('city', value)}/>
-                    </Label>
-                    <Label isError={errors.name}>
-                        <input
-                            value={data.name}
-                            onChange={(e) => handleChange('name', e.target.value)}
-                            type="text"
-                            placeholder="Имя"
-                        />
-                    </Label>
-                    <div className="feedback_row">
-                        <Label isError={errors.email}>
-                            <input
-                                value={data.email}
-                                onChange={(e) => handleChange('email', e.target.value)}
-                                type="text"
-                                placeholder="Email"
-                            />
-                        </Label>
-                        <Label isError={errors.phone}>
-                            <input
-                                value={data.phone}
-                                onChange={(e) => handleChange('phone', e.target.value)}
-                                type="text"
-                                placeholder="+7 (___) __-__-___"
-                            />
-                        </Label>
-                    </div>
-                    <Label isError={errors.message}>
-                    <textarea
-                        value={data.message}
-                        onChange={(e) => handleChange('message', e.target.value)}
-                        rows="8"
-                        placeholder="Оставьте пометку к заказу"
+                    <Select value={data.city} onChange={handleChangeCity} isError={errors.city}/>
+                    <Input
+                        value={data.name}
+                        onChange={handleChangeName}
+                        placeholder="Имя"
+                        isError={errors.name}
                     />
-                    </Label>
-                    <Label isError={errors.file}>
-                        <div className="feedback__file-input" onClick={() => fileInputRef.current.click()}>
-                            <input
-                                ref={fileInputRef}
-                                value={data.file}
-                                onChange={(e) => handleChange('file', e.target.value)}
-                                type="file"
-                            />
-                            {data.file ? (
-                                <p>{getFileName(data.file)}</p>
-                            ) : (
-                                <p className="feedback_default-value">Прикрепите файл</p>
+                    <div className="feedback_row">
+                        <Input
+                            value={data.email}
+                            onChange={handleChangeEmail}
+                            placeholder="Email"
+                            isError={errors.email}
+                        />
+                        <Input
+                            value={data.phone}
+                            onChange={handleChangePhone}
+                            placeholder="+7 (___) __-__-___"
+                            isError={errors.phone}
+                        />
+                    </div>
+                    <Textarea
+                        value={data.message}
+                        onChange={handleChangeMessage}
+                        placeholder="Оставьте пометку к заказу"
+                        isError={errors.message}
+                    />
+                    <FileInput
+                        inputRef={fileInputRef}
+                        fileName={getFileName(data.file)}
+                        fileAttached={getFileName(data.file)}
+                        onChange={handleChangeFile}
+                        isError={errors.file}
+                    />
+                    <div className="feedback__checkbox-container">
+                        <div className="feedback__checkbox" onClick={() => handleChange('agree', !data.agree)}>
+                            {data.agree && (
+                                <img src={checkMarkIcon} alt="Да"/>
                             )}
-                            <img src={paperClipIcon} alt="Файл"/>
                         </div>
-                    </Label>
-                    <Label isError={errors.agree}>
-                        <div className="feedback__checkbox-container">
-                            <div className="feedback__checkbox" onClick={() => handleChange('agree', !data.agree)}>
-                                {data.agree && (
-                                    <img src={checkMarkIcon} alt="Да"/>
-                                )}
-                            </div>
-                            <p>Даю согласие на обработку своих персональных данных</p>
-                        </div>
-                    </Label>
+                        <p>Даю согласие на обработку своих персональных данных</p>
+                    </div>
+                    <div className={`feedback_label${errors.agree ? ' error' : ''}`}>
+                        {errors.agree && (
+                            <span>Поле не заполнено</span>
+                        )}
+                    </div>
                     <button onClick={handleCheckData}>Оставить заявку</button>
                 </div>
             )}
@@ -152,6 +144,6 @@ const Feedback = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Feedback;

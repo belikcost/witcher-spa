@@ -1,5 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+
+import Contacts from "./Elements/Contacts";
+import SuccessMessage from "./Elements/SuccessMessage";
 
 import Select from "../../primitives/Select";
 import Input from "../../primitives/Input";
@@ -9,6 +11,7 @@ import FileInput from "../../primitives/FileInput";
 import checkMarkIcon from '/src/img/checkMark.svg';
 
 import './index.scss';
+import AgreePersonalDataProcessing from "../../primitives/AgreePersonalDataProcessing";
 
 const initialErrors = {
     city: false,
@@ -40,7 +43,7 @@ const Feedback = () => {
     const [success, setSuccess] = useState(false);
 
     const handleChange = useCallback((name, value) => {
-        setData((prevData) => ({...prevData, [name]: value}));
+        setData((prevData) => ({ ...prevData, [name]: value }));
     }, []);
 
     const handleCheckData = () => {
@@ -49,12 +52,12 @@ const Feedback = () => {
 
         fields.forEach(field => {
             if (!data[field]) {
-                localErrors = {...localErrors, [field]: true};
+                localErrors = { ...localErrors, [field]: true };
             }
         });
 
         if (Object.keys(localErrors).length !== 0) {
-            setErrors({...initialErrors, ...localErrors});
+            setErrors({ ...initialErrors, ...localErrors });
         } else {
             setSuccess(true);
         }
@@ -67,14 +70,12 @@ const Feedback = () => {
     const handleChangePhone = useCallback((e) => handleChange('phone', e.target.value), []);
     const handleChangeMessage = useCallback((e) => handleChange('message', e.target.value), []);
 
+    const onAgreePersonalDataProcessing = useCallback(() => handleChange('agree', !data.agree), [data.agree]);
+
     return (
         <div className="feedback">
             {success ? (
-                <div className="feedback__success">
-                    <h1>Заявка отправлена!</h1>
-                    <h5>Мы получили вашу заявку. Наши специалисты свяжутся с вами в ближайшее время, чтобы уточнить все детали заказа.</h5>
-                    <Link to="/">Вернуться на главную</Link>
-                </div>
+                <SuccessMessage homeUrl="/"/>
             ) : (
                 <div className="feedback__form">
                     <h1>Оставьте заявку</h1>
@@ -112,36 +113,15 @@ const Feedback = () => {
                         onChange={handleChangeFile}
                         isError={errors.file}
                     />
-                    <div className="feedback__checkbox-container">
-                        <div className="feedback__checkbox" onClick={() => handleChange('agree', !data.agree)}>
-                            {data.agree && (
-                                <img src={checkMarkIcon} alt="Да"/>
-                            )}
-                        </div>
-                        <p>Даю согласие на обработку своих персональных данных</p>
-                    </div>
-                    <div className={`feedback_label${errors.agree ? ' error' : ''}`}>
-                        {errors.agree && (
-                            <span>Поле не заполнено</span>
-                        )}
-                    </div>
+                    <AgreePersonalDataProcessing
+                        onAgree={onAgreePersonalDataProcessing}
+                        isAgree={data.agree}
+                        isError={errors.agree}
+                    />
                     <button onClick={handleCheckData}>Оставить заявку</button>
                 </div>
             )}
-            <div className="feedback__contacts">
-                <div>
-                    <p>Наша горячая линия</p>
-                    <h2>8 800 38 23 112</h2>
-                </div>
-                <div>
-                    <p>Главный офис</p>
-                    <h3>г. Москва, Садовническая ул., 80</h3>
-                </div>
-                <div>
-                    <p>Часы работы</p>
-                    <h3>Пн-Пт с 10:00 до 22:00</h3>
-                </div>
-            </div>
+            <Contacts/>
         </div>
     );
 };

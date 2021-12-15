@@ -6,10 +6,10 @@ import photoThree from '/src/img/Photo 3.jpg';
 import photoFour from '/src/img/Photo 4.jpg';
 import photoFive from '/src/img/Photo 5.jpg';
 
-import './Gallery.scss';
+import './index.scss';
 
 
-export const Gallery = () => {
+const Gallery = () => {
     const [showAll, setShowAll] = useState(false);
 
     return (
@@ -29,4 +29,6 @@ export const Gallery = () => {
             </button>
         </div>
     );
-}
+};
+
+export default Gallery;

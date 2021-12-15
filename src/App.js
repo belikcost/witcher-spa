@@ -1,15 +1,14 @@
 import { Route, Switch } from "react-router-dom";
 
-import Map from "./Map";
-import Feedback from "./Feedback";
+import Map from "./components/Map";
+import Feedback from "./components/Feedback";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Slider from "./components/Slider";
+import Banner from "./components/Banner";
+import Gallery from "./components/Gallery";
 
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { Slider } from "./Slider";
-import { Banner } from "./Banner";
-import { Gallery } from "./Gallery";
-
-import '../fonts/stylesheet.css';
+import './fonts/stylesheet.css';
 import './App.scss';
 
 

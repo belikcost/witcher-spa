@@ -1,9 +1,9 @@
 import { Link, Route } from "react-router-dom";
 
 import logo from '/src/img/logo.png';
-import './Header.scss';
+import './index.scss';
 
-export const Header = () => {
+const Header = () => {
 
     return (
         <header className="header">
@@ -15,4 +15,6 @@ export const Header = () => {
             </Route>
         </header>
     );
-}
+};
+
+export default Header;

@@ -9,12 +9,12 @@ import emgur from '/src/img/emgur.jpg';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import './Slider.scss';
+import './index.scss';
 
 SwiperCore.use([Pagination, Navigation]);
 
 
-export const Slider = () => {
+const Slider = () => {
 
     return (
         <div className="slider">
@@ -28,15 +28,12 @@ export const Slider = () => {
             <Swiper
                 slidesPerView={4}
                 breakpoints={{
-                    // when window width is >= 320px
                     0: {
                         slidesPerView: 2,
                     },
-                    // when window width is >= 480px
                     700: {
                         slidesPerView: 3,
                     },
-                    // when window width is >= 640px
                     1040: {
                         slidesPerView: 4
                     }
@@ -144,4 +141,6 @@ export const Slider = () => {
             </Swiper>
         </div>
     );
-}
+};
+
+export default Slider;

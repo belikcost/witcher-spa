@@ -1,6 +1,6 @@
 import React from "react";
 
-const Textarea = React.memo(({ value, onChange, placeholder, isError }) => {
+const Textarea = ({ value, onChange, placeholder, isError }) => {
 
     return (
         <div className={`feedback_label${isError ? ' error' : ''}`}>
@@ -15,6 +15,6 @@ const Textarea = React.memo(({ value, onChange, placeholder, isError }) => {
             )}
         </div>
     );
-});
+};
 
 export default React.memo(Textarea);

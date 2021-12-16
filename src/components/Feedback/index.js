@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
+import { observer } from "mobx-react-lite";
 
 import Contacts from "./Elements/Contacts";
 import SuccessMessage from "./Elements/SuccessMessage";
@@ -7,23 +8,16 @@ import Select from "../../primitives/Select";
 import Input from "../../primitives/Input";
 import Textarea from "../../primitives/Textarea";
 import FileInput from "../../primitives/FileInput";
-
-import checkMarkIcon from '/src/img/checkMark.svg';
-
-import './index.scss';
 import AgreePersonalDataProcessing from "../../primitives/AgreePersonalDataProcessing";
 
-const initialErrors = {
-    city: false,
-    name: false,
-    email: false,
-    phone: false,
-    message: false,
-    file: false,
-    agree: false
-};
+import State from "../../../domain/State";
 
-const initialData = {
+import './index.scss';
+import { identity, memoizeWith } from "ramda";
+
+const getFileName = (path) => path.replace('C:\\fakepath\\', '');
+
+const formData = new State({
     city: '',
     name: '',
     email: '',
@@ -31,46 +25,36 @@ const initialData = {
     message: '',
     file: '',
     agree: false
-};
+});
 
-const getFileName = (path) => path.replace('C:\\fakepath\\', '');
+const formErrors = new State({
+    city: false,
+    name: false,
+    email: false,
+    phone: false,
+    message: false,
+    file: false,
+    agree: false
+});
+
+const callWithEventTargetValue = memoizeWith((_, key) => key, (callback) => (e) => callback(e.target.value));
 
 const Feedback = () => {
     const fileInputRef = useRef();
-
-    const [data, setData] = useState(initialData);
-    const [errors, setErrors] = useState(initialErrors);
     const [success, setSuccess] = useState(false);
 
-    const handleChange = useCallback((name, value) => {
-        setData((prevData) => ({ ...prevData, [name]: value }));
-    }, []);
-
-    const handleCheckData = () => {
-        const fields = Object.keys(data);
-        let localErrors = {};
-
-        fields.forEach(field => {
-            if (!data[field]) {
-                localErrors = { ...localErrors, [field]: true };
-            }
+    const handleSubmit = () => {
+        Object.entries(formData).forEach(([key, value]) => {
+            formErrors.setField(key)(!value);
         });
 
-        if (Object.keys(localErrors).length !== 0) {
-            setErrors({ ...initialErrors, ...localErrors });
-        } else {
-            setSuccess(true);
-        }
+        const isValid = Object.values(formErrors).every((error) => !error);
+        setSuccess(isValid);
     };
 
-    const handleChangeCity = useCallback((value) => handleChange('city', value), []);
-    const handleChangeName = useCallback((e) => handleChange('name', e.target.value), []);
-    const handleChangeEmail = useCallback((e) => handleChange('email', e.target.value), []);
-    const handleChangeFile = useCallback((e) => handleChange('file', e.target.value), []);
-    const handleChangePhone = useCallback((e) => handleChange('phone', e.target.value), []);
-    const handleChangeMessage = useCallback((e) => handleChange('message', e.target.value), []);
-
-    const onAgreePersonalDataProcessing = useCallback(() => handleChange('agree', !data.agree), [data.agree]);
+    const onAgreePersonalDataProcessing = useCallback(
+        () => formData.setField("agree")(!formData.agree), [formData.agree]
+    );
 
     return (
         <div className="feedback">
@@ -79,46 +63,50 @@ const Feedback = () => {
             ) : (
                 <div className="feedback__form">
                     <h1>Оставьте заявку</h1>
-                    <Select value={data.city} onChange={handleChangeCity} isError={errors.city}/>
+                    <Select
+                        value={formData.city}
+                        onChange={formData.setField("city")}
+                        isError={formErrors.city}
+                    />
                     <Input
-                        value={data.name}
-                        onChange={handleChangeName}
+                        value={formData.name}
+                        onChange={callWithEventTargetValue(formData.setField("name"), "name")}
                         placeholder="Имя"
-                        isError={errors.name}
+                        isError={formErrors.name}
                     />
                     <div className="feedback_row">
                         <Input
-                            value={data.email}
-                            onChange={handleChangeEmail}
+                            value={formData.email}
+                            onChange={callWithEventTargetValue(formData.setField("email"), "email")}
                             placeholder="Email"
-                            isError={errors.email}
+                            isError={formErrors.email}
                         />
                         <Input
-                            value={data.phone}
-                            onChange={handleChangePhone}
+                            value={formData.phone}
+                            onChange={callWithEventTargetValue(formData.setField("phone"), "phone")}
                             placeholder="+7 (___) __-__-___"
-                            isError={errors.phone}
+                            isError={formErrors.phone}
                         />
                     </div>
                     <Textarea
-                        value={data.message}
-                        onChange={handleChangeMessage}
+                        value={formData.message}
+                        onChange={callWithEventTargetValue(formData.setField("message"), "message")}
                         placeholder="Оставьте пометку к заказу"
-                        isError={errors.message}
+                        isError={formErrors.message}
                     />
                     <FileInput
                         inputRef={fileInputRef}
-                        fileName={getFileName(data.file)}
-                        fileAttached={getFileName(data.file)}
-                        onChange={handleChangeFile}
-                        isError={errors.file}
+                        fileName={getFileName(formData.file)}
+                        fileAttached={getFileName(formData.file)}
+                        onChange={callWithEventTargetValue(formData.setField("file"), "file")}
+                        isError={formErrors.file}
                     />
                     <AgreePersonalDataProcessing
                         onAgree={onAgreePersonalDataProcessing}
-                        isAgree={data.agree}
-                        isError={errors.agree}
+                        isAgree={formData.agree}
+                        isError={formErrors.agree}
                     />
-                    <button onClick={handleCheckData}>Оставить заявку</button>
+                    <button onClick={handleSubmit}>Оставить заявку</button>
                 </div>
             )}
             <Contacts/>
@@ -126,4 +114,4 @@ const Feedback = () => {
     );
 };
 
-export default Feedback;
+export default observer(Feedback);

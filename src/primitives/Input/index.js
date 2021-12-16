@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = React.memo(({ value, onChange, placeholder, isError }) => {
+const Input = ({ value, onChange, placeholder, isError }) => {
 
     return (
         <div className={`feedback_label${isError ? ' error' : ''}`}>
@@ -14,6 +14,6 @@ const Input = React.memo(({ value, onChange, placeholder, isError }) => {
             )}
         </div>
     );
-});
+};
 
 export default React.memo(Input);

@@ -1,5 +1,6 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { memoizeWith } from "ramda";
 
 import Contacts from "./Elements/Contacts";
 import SuccessMessage from "./Elements/SuccessMessage";
@@ -10,14 +11,13 @@ import Textarea from "../../primitives/Textarea";
 import FileInput from "../../primitives/FileInput";
 import AgreePersonalDataProcessing from "../../primitives/AgreePersonalDataProcessing";
 
-import State from "../../../domain/State";
+import Model from "../../../domain/Model";
 
 import './index.scss';
-import { identity, memoizeWith } from "ramda";
 
 const getFileName = (path) => path.replace('C:\\fakepath\\', '');
 
-const formData = new State({
+const formData = new Model({
     city: '',
     name: '',
     email: '',
@@ -27,34 +27,17 @@ const formData = new State({
     agree: false
 });
 
-const formErrors = new State({
-    city: false,
-    name: false,
-    email: false,
-    phone: false,
-    message: false,
-    file: false,
-    agree: false
-});
+const getFunctionName = (fn) => fn.name;
 
-const callWithEventTargetValue = memoizeWith((_, key) => key, (callback) => (e) => callback(e.target.value));
+const callWithEventTargetValue = memoizeWith(getFunctionName, (callback) => (e) => callback(e.target.value));
 
 const Feedback = () => {
     const fileInputRef = useRef();
     const [success, setSuccess] = useState(false);
 
     const handleSubmit = () => {
-        Object.entries(formData).forEach(([key, value]) => {
-            formErrors.setField(key)(!value);
-        });
-
-        const isValid = Object.values(formErrors).every((error) => !error);
-        setSuccess(isValid);
+        setSuccess(formData.validate());
     };
-
-    const onAgreePersonalDataProcessing = useCallback(
-        () => formData.setField("agree")(!formData.agree), [formData.agree]
-    );
 
     return (
         <div className="feedback">
@@ -64,47 +47,47 @@ const Feedback = () => {
                 <div className="feedback__form">
                     <h1>Оставьте заявку</h1>
                     <Select
-                        value={formData.city}
+                        value={formData.state.city}
                         onChange={formData.setField("city")}
-                        isError={formErrors.city}
+                        isError={formData.errors.city}
                     />
                     <Input
-                        value={formData.name}
-                        onChange={callWithEventTargetValue(formData.setField("name"), "name")}
+                        value={formData.state.name}
+                        onChange={callWithEventTargetValue(formData.setField("name"))}
                         placeholder="Имя"
-                        isError={formErrors.name}
+                        isError={formData.errors.name}
                     />
                     <div className="feedback_row">
                         <Input
-                            value={formData.email}
-                            onChange={callWithEventTargetValue(formData.setField("email"), "email")}
+                            value={formData.state.email}
+                            onChange={callWithEventTargetValue(formData.setField("email"))}
                             placeholder="Email"
-                            isError={formErrors.email}
+                            isError={formData.errors.email}
                         />
                         <Input
-                            value={formData.phone}
-                            onChange={callWithEventTargetValue(formData.setField("phone"), "phone")}
+                            value={formData.state.phone}
+                            onChange={callWithEventTargetValue(formData.setField("phone"))}
                             placeholder="+7 (___) __-__-___"
-                            isError={formErrors.phone}
+                            isError={formData.errors.phone}
                         />
                     </div>
                     <Textarea
-                        value={formData.message}
-                        onChange={callWithEventTargetValue(formData.setField("message"), "message")}
+                        value={formData.state.message}
+                        onChange={callWithEventTargetValue(formData.setField("message"))}
                         placeholder="Оставьте пометку к заказу"
-                        isError={formErrors.message}
+                        isError={formData.errors.message}
                     />
                     <FileInput
                         inputRef={fileInputRef}
-                        fileName={getFileName(formData.file)}
-                        fileAttached={getFileName(formData.file)}
-                        onChange={callWithEventTargetValue(formData.setField("file"), "file")}
-                        isError={formErrors.file}
+                        fileName={getFileName(formData.state.file)}
+                        fileAttached={getFileName(formData.state.file)}
+                        onChange={callWithEventTargetValue(formData.setField("file"))}
+                        isError={formData.errors.file}
                     />
                     <AgreePersonalDataProcessing
-                        onAgree={onAgreePersonalDataProcessing}
-                        isAgree={formData.agree}
-                        isError={formErrors.agree}
+                        setAgree={formData.setField("agree")}
+                        isAgree={formData.state.agree}
+                        isError={formData.errors.agree}
                     />
                     <button onClick={handleSubmit}>Оставить заявку</button>
                 </div>

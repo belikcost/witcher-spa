@@ -2,7 +2,7 @@ import React from "react";
 
 import paperClipIcon from "../../img/paperClip.svg";
 
-const FileInput = React.memo(({ fileName, fileAttached, inputRef, onChange, isError }) => {
+const FileInput = ({ fileName, fileAttached, inputRef, onChange, isError }) => {
 
     return (
         <div className={`feedback_label${isError ? ' error' : ''}`}>
@@ -24,6 +24,6 @@ const FileInput = React.memo(({ fileName, fileAttached, inputRef, onChange, isEr
             )}
         </div>
     );
-});
+};
 
 export default React.memo(FileInput);

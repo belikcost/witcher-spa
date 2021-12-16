@@ -2,7 +2,11 @@ import React from "react";
 
 import checkMarkIcon from "../../img/checkMark.svg";
 
-const AgreePersonalDataProcessing = ({ onAgree, isAgree, isError }) => {
+const AgreePersonalDataProcessing = ({ setAgree, isAgree, isError }) => {
+
+    const onAgree = () => {
+      setAgree(!isAgree);
+    };
 
     return (
         <div className={`feedback_label${isError ? ' error' : ''}`}>

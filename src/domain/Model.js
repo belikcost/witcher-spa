@@ -1,10 +1,24 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { identity, memoizeWith } from "ramda";
 
+/**
+ * Model with state and error validation.
+ */
 class Model {
+    /**
+     * @type {object}
+     */
     #ignoredKeys = {};
+
+    /**
+     * @type {boolean}
+     */
     canValidate = false;
 
+    /**
+     * @param {object} initialState
+     * @param {string[]?} ignoredKeys - The ignored keys of state for validation
+     */
     constructor(initialState, ignoredKeys) {
         this.state = initialState;
 
@@ -20,12 +34,19 @@ class Model {
         }, { deep: true });
     }
 
+    /**
+     * @param {string} fieldName
+     * @return {function(value: any): (void)}
+     */
     setField = memoizeWith(identity, (fieldName) => {
         return action(fieldName, (value) => {
             this.state[fieldName] = value;
         });
     });
 
+    /**
+     * @return {object}
+     */
     get errors() {
         const errors = {};
 
@@ -44,6 +65,9 @@ class Model {
         return errors;
     }
 
+    /**
+     * @return {boolean}
+     */
     validate() {
         this.canValidate = true;
         return Object.values(this.errors).every(error => !error);

@@ -11,7 +11,7 @@ import Textarea from "../../primitives/Textarea";
 import FileInput from "../../primitives/FileInput";
 import AgreePersonalDataProcessing from "../../primitives/AgreePersonalDataProcessing";
 
-import Model from "../../../domain/Model";
+import Model from "../../domain/Model";
 
 import './index.scss';
 
@@ -80,7 +80,7 @@ const Feedback = () => {
                     <FileInput
                         inputRef={fileInputRef}
                         fileName={getFileName(formData.state.file)}
-                        fileAttached={getFileName(formData.state.file)}
+                        fileAttached={Boolean(getFileName(formData.state.file))}
                         onChange={callWithEventTargetValue(formData.setField("file"))}
                         isError={formData.errors.file}
                     />

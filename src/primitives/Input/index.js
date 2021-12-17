@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Input = ({ value, onChange, placeholder, isError }) => {
 
@@ -14,6 +15,13 @@ const Input = ({ value, onChange, placeholder, isError }) => {
             )}
         </div>
     );
+};
+
+Input.propTypes = {
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
 };
 
 export default React.memo(Input);

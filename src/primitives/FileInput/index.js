@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import paperClipIcon from "../../img/paperClip.svg";
 
@@ -24,6 +25,14 @@ const FileInput = ({ fileName, fileAttached, inputRef, onChange, isError }) => {
             )}
         </div>
     );
+};
+
+FileInput.propTypes = {
+    fileName: PropTypes.string.isRequired,
+    fileAttached: PropTypes.bool.isRequired,
+    inputRef: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    isError: PropTypes.bool.isRequired,
 };
 
 export default React.memo(FileInput);

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Textarea = ({ value, onChange, placeholder, isError }) => {
 
@@ -15,6 +16,13 @@ const Textarea = ({ value, onChange, placeholder, isError }) => {
             )}
         </div>
     );
+};
+
+Textarea.propTypes = {
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
 };
 
 export default React.memo(Textarea);

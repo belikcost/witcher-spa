@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const options = ['Москва', 'Санкт-Петербург', 'Казань', 'Краснодар', 'Ростов-на-Дону'];
 
@@ -35,6 +36,12 @@ const Select = ({ value, onChange, isError }) => {
             )}
         </div>
     );
+};
+
+Select.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isError: PropTypes.bool.isRequired,
 };
 
 export default React.memo(Select);

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import checkMarkIcon from "../../img/checkMark.svg";
 
@@ -23,6 +24,12 @@ const AgreePersonalDataProcessing = ({ setAgree, isAgree, isError }) => {
             )}
         </div>
     );
+};
+
+AgreePersonalDataProcessing.propTypes = {
+    setAgree: PropTypes.func.isRequired,
+    isAgree: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
 };
 
 export default React.memo(AgreePersonalDataProcessing);
